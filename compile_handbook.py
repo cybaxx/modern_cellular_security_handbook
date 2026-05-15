@@ -1035,7 +1035,7 @@ def read_all_chapters():
             continue
         vm = re.search(r"Volume_(\d+)", vol.name)
         vol_num = int(vm.group(1)) if vm else 0
-        vol_label = vol.name.replace("Volume_", "Volume ").replace("_", " ")
+        vol_label = re.sub(r"^Volume (\d+) ", r"Volume \1: ", vol.name.replace("Volume_", "Volume ").replace("_", " "))
 
         for chap_dir in sorted(vol.iterdir()):
             if not chap_dir.is_dir():

@@ -182,7 +182,7 @@ Layer 6 is the ultimate vulnerability because it operates outside the technical 
 
 The two-phone strategy cannot protect against Layer 6 vulnerabilities once identity is known. The strategy's effectiveness depends entirely on preventing the initial identity link. If the adversary never discovers who you are, they cannot use legal process. If they do discover your identity — through any of the five earlier layers, a mistake in OpSec, human intelligence, or unrelated investigation — the legal framework ensures they can access everything.
 
-This is why the mitigated architecture (Chapter 17) focuses so heavily on preventing identity discovery. The burner SIM purchased with cash, the phone purchased with cash, the avoidance of any identity-linked service, the prohibition on residential ISP usage — all of these are designed to prevent the adversary from ever learning a name, address, or phone number.
+This is why the mitigated architecture (Chapter 41) focuses so heavily on preventing identity discovery. The burner SIM purchased with cash, the phone purchased with cash, the avoidance of any identity-linked service, the prohibition on residential ISP usage — all of these are designed to prevent the adversary from ever learning a name, address, or phone number.
 
 But Layer 6 also highlights the ultimate limitation of the strategy: it protects against data-driven surveillance, not against people-driven investigation. If an adversary has the resources to conduct physical surveillance (following you, photographing you, identifying your home and workplace), the legal process follows automatically. Layer 6 vulnerabilities cannot be patched. They can only be avoided — by remaining anonymous.
 

@@ -111,7 +111,7 @@ High-risk adversaries combine full legal authority, extensive technical capabili
 
 **Identity Discovery (67% success, always two of three devices):**
 
-Phone A is always compromised for identity. The carrier has the SIM's subscriber records. Even with a cash-purchased burner SIM, an intelligence agency can identify the purchaser through store surveillance cameras, license plate readers, and financial transaction tracking (see residual risks in Part 5 of the source).
+Phone A is always compromised for identity. The carrier has the SIM's subscriber records. Even with a cash-purchased burner SIM, an intelligence agency can identify the purchaser through store surveillance cameras, license plate readers, and financial transaction tracking (see residual risks in Chapter 42).
 
 Phone B (no SIM) has no carrier link. But this protection is temporary. Once Phone A's identity is known, physical surveillance identifies the user's movements, and Phone B is located through observation.
 
