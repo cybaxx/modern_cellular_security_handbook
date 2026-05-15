@@ -992,6 +992,28 @@ sup a {{ color: {LCYAN}; text-decoration: none; }}
 .graph-figure .caption {{ font-size: 8.5pt; color: {LMUTED}; margin-top: 0.06in; font-style: italic; }}
 .page-footer {{ display: none; }}
 @media screen {{ body {{ padding: 0.5in; max-width: 9in; margin: 0 auto; }} }}
+
+/* ── Syntax highlighting (codehilite / light theme) ────────────────────────── */
+.codehilite {{ background: {LCARD}; border: 1px solid {LBDR}; border-left: 3px solid {LPURP}; border-radius: 3px; padding: 9px 13px; margin: 0.12in 0; }}
+.codehilite pre {{ border: none; padding: 0; margin: 0; background: transparent; }}
+.codehilite .hll {{ background-color: #e8eaed; }}
+.codehilite .c  {{ color: #6e7781; font-style: italic; }}
+.codehilite .k  {{ color: #0550ae; font-weight: bold; }}
+.codehilite .n  {{ color: {LTXT}; }}
+.codehilite .o  {{ color: {LORG}; }}
+.codehilite .s  {{ color: #0a6e25; }}
+.codehilite .s1 {{ color: #0a6e25; }}
+.codehilite .s2 {{ color: #0a6e25; }}
+.codehilite .m  {{ color: {LPURP}; }}
+.codehilite .mi {{ color: {LPURP}; }}
+.codehilite .nb {{ color: #0550ae; }}
+.codehilite .nf {{ color: {LORG}; font-weight: bold; }}
+.codehilite .nv {{ color: {LTXT}; }}
+.codehilite .nt {{ color: #0550ae; }}
+.codehilite .p  {{ color: {LMUTED}; }}
+.codehilite .cm {{ color: #6e7781; font-style: italic; }}
+.codehilite .cp {{ color: {LORG}; }}
+.codehilite .err {{ color: {LORG}; background: none; }}
 """
 
 # ── Chapter reader ──────────────────────────────────────────────────────────
@@ -1489,7 +1511,7 @@ def build_html(chapters, graph_paths, theme="dark"):
             cur_vol = vl
             parts.append(f'<div class="vol-group"><div class="vol-label">{vl}</div>')
         cn = ch["ch_num"]
-        anchor = f"ch{cn}" if cn else f'app-{ch["dir_name"]}'
+        anchor = f"v{ch['vol_num']}ch{cn}" if cn else f'app-{ch["dir_name"]}'
         num_str = f"Chapter {cn}" if cn else ""
         toc_title = strip_chapter_prefix(ch["title"])
         label = f"{num_str} {toc_title}".strip()
@@ -1505,7 +1527,7 @@ def build_html(chapters, graph_paths, theme="dark"):
 
     # ── Chapters ──
     for ch in chapters:
-        anchor = f'ch{ch["ch_num"]}' if ch["ch_num"] else f'app-{ch["dir_name"]}'
+        anchor = f'v{ch["vol_num"]}ch{ch["ch_num"]}' if ch["ch_num"] else f'app-{ch["dir_name"]}'
         is_appendix = ch["vol_label"] == "Appendices"
         num_str = f"Chapter {ch['ch_num']}" if ch["ch_num"] else ""
         clean_title = strip_chapter_prefix(ch["title"])

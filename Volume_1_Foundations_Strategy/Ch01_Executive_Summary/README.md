@@ -22,7 +22,7 @@ The handbook covers:
 
 **Threat Model Assumption:** Adversary ranges from advertisers (low capability) to state-level intelligence agencies (high capability). All mitigations are documented with their limitations. The analysis assumes the adversary operates within legal frameworks (subpoenas, court orders, warrants) but also acknowledges extra-legal capabilities (Stingray devices, zero-day exploits, physical surveillance). The handbook does not assume the adversary is omniscient, but it does assume they are competent and persistent.
 
-**Document Overview:** This version 2.0 of the handbook synthesizes the original two-phone strategy with comprehensive forensic analysis across every major tracking vector. It supersedes earlier drafts by incorporating findings from 4G/5G protocol analysis, Wi-Fi probe request forensics, ISP metadata collection mechanisms, application-level geo-location tracking, and legal access frameworks. Each vulnerability is categorized by layer, rated by severity, and paired with specific mitigations. The result is a complete threat model for anyone considering or currently using a two-phone privacy architecture.
+**Document Overview:** This version 3.1 of the handbook synthesizes the original two-phone strategy with comprehensive forensic analysis across every major tracking vector. It supersedes earlier drafts by incorporating findings from 4G/5G protocol analysis, Wi-Fi probe request forensics, ISP metadata collection mechanisms, application-level geo-location tracking, and legal access frameworks. Each vulnerability is categorized by layer, rated by severity, and paired with specific mitigations. The result is a complete threat model for anyone considering or currently using a two-phone privacy architecture.
 
 ## Who This Is For
 
@@ -66,7 +66,7 @@ The canonical two-phone strategy rests on three components:
 
 ## The Six Vulnerability Layers
 
-We have identified six layers of vulnerability. Each layer provides a potential path for an adversary to deanonymize you or link Phone A to Phone B.
+We have identified six layers of vulnerability, plus an adversary model analysis. Each layer provides a potential path for an adversary to deanonymize you or link Phone A to Phone B.
 
 ### Layer 1: Cellular Network (Phone A)
 
@@ -114,7 +114,7 @@ The analysis in this handbook yields several conclusions that apply across all t
 
 **The two-phone strategy is valid but incomplete as originally proposed.** It correctly identifies compartmentalization and de-identification as the right principles, but it fails to address five critical attack surfaces: Wi-Fi probe requests and BSSID geolocation, residential ISP identity linkage, physical co-location correlation, Signal metadata leakage, and carrier-level cellular tracking via Timing Advance and 5G Multi-RTT.[^2][^3]
 
-**With mitigations, the strategy becomes significantly more robust but still not absolute.** The "Compartmentalized Burner" model described in Part 4 of the threat model addresses all five gaps, but requires strict operational discipline: cash-purchased burner SIMs rotated every 30--90 days, faraday bags for both phones when not in active use, Phone B never within 1km of home or work, and all devices operated on Tails OS or Qubes with Tor.
+**With mitigations, the strategy becomes significantly more robust but still not absolute.** The "Compartmentalized Burner" model described in Chapter 41 addresses all five gaps, but requires strict operational discipline: cash-purchased burner SIMs rotated every 30--90 days, faraday bags for both phones when not in active use, Phone B never within 1km of home or work, and all devices operated on Tails OS or Qubes with Tor.
 
 **For 95% of users, two phones are overkill.** A single de-Googled phone with Signal, a VPN, and careful OpSec provides 90% of the privacy benefit with 10% of the complexity and risk. The two-phone strategy should be reserved for the 5% facing serious adversaries: journalists under threat, border crossers with sensitive data, activists under surveillance, and whistleblowers.
 

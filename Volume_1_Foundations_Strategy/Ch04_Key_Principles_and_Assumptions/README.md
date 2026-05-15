@@ -79,7 +79,7 @@ Privacy is not free. Every privacy measure costs something: money, time, conveni
 
 | Privacy Level | Effort Required | Annual Cost | Risk of User Error | Privacy Benefit |
 |---|---|---|---|---|
-| Stock Android (default) | None | $0 | Low | 0% (baseline) |
+| Stock Android (default) | None | $0 | Low | -50% (actively collects data) |
 | Single de-Googled phone + Signal + VPN | A few hours setup | $100--$200 | Low | 80% of maximum |
 | Two phones (basic) | Days of setup, ongoing management | $400--$800 | Medium | 90% |
 | Two phones + full mitigations (faraday, burner SIMs, Tails, strict OpSec) | Constant vigilance | $1,200--$1,800+ | High | 95% |

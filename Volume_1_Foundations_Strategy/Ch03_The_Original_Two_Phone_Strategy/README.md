@@ -80,7 +80,7 @@ A correctly configured Phone B under the Bazzell configuration presents the foll
 | Signal / messaging | Registered to burner VoIP number; server holds only last-connection timestamp |
 | Device hardware | Pixel with re-locked bootloader; Titan M2 chip; verified boot intact |
 
-This is the Phone B configuration that the rest of this handbook evaluates, stress-tests, and builds mitigations around. It is not perfect — the cellular baseband, Wi-Fi probe history, and physical co-location with Phone A remain attack surfaces. But it is the closest thing to a practical, field-deployable hardened phone that does not require custom hardware or nation-state resources to operate.
+This Phone B configuration is the reference point the rest of this handbook evaluates, stress-tests, and builds mitigations around. It is not perfect — the cellular baseband, Wi-Fi probe history, and physical co-location with Phone A remain attack surfaces. But it is the closest thing to a practical, field-deployable hardened phone that does not require custom hardware or nation-state resources to operate.
 
 [^1]: Bazzell, Michael. *Extreme Privacy: What It Takes to Disappear*, 5th ed. (2025). Section Five: "The Two-Device Strategy." Available from inteltechniques.com. Bazzell's podcast, the *Privacy, Security & OSINT Show*, supplements the book with episode-by-episode updates as services and threat landscapes evolve.
 
