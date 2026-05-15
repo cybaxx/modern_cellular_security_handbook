@@ -1090,6 +1090,8 @@ def build_css():
 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 html {{
     font-size: clamp(15px, 1.4vw, 19px);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }}
 body {{
     background: {DARK_BG};
@@ -1098,6 +1100,8 @@ body {{
     font-size: 1rem;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: auto;
+    text-size-adjust: auto;
     min-width: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -1452,7 +1456,7 @@ def build_html(chapters, graph_paths, theme="dark"):
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <style>{css}</style>
 </head>
 <body>""")
