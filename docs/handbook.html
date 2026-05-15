@@ -3,7 +3,386 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<style>
+<style id="theme-dark" >
+/* ── Page setup with running headers ─────────────────────────────────────── */
+@page {
+    size: letter;
+    margin: 0.7in 0.65in 0.8in 0.75in;
+    @top-left {
+        content: string(chapter-running);
+        font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 7pt;
+        color: #8b949e;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 4px;
+    }
+    @top-right {
+        content: "Privacy Researcher's Handbook";
+        font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 7pt;
+        color: #8b949e;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 4px;
+    }
+    @bottom-center {
+        content: "— " counter(page) " —";
+        font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 7.5pt;
+        color: #8b949e;
+    }
+}
+/* Suppress headers on cover AND TOC pages */
+@page :first { @top-left { content: ""; } @top-right { content: ""; } @bottom-center { content: ""; } }
+.toc { page: toc-page; }
+@page toc-page { @top-left { content: ""; } @top-right { content: ""; } }
+
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    font-size: clamp(15px, 1.4vw, 19px);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'Inter', -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: auto;
+    text-size-adjust: auto;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* ── Cover ────────────────────────────────────────────────────────────────── */
+.cover {
+    display: flex; flex-direction: column; justify-content: center;
+    align-items: center; text-align: center;
+    min-height: 9.5in; padding: 0.5in 1in; page-break-after: always;
+    background: linear-gradient(160deg, #090c10 0%, #0d1117 60%, #161b22 100%);
+    border-bottom: 3px solid #00d4ff;
+}
+.cover .shield { font-size: 48pt; margin-bottom: 0.4in; opacity: 0.9; }
+.cover h1 {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 24pt; font-weight: 700; color: #00d4ff;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 0.15in; line-height: 1.3;
+}
+.cover .subtitle {
+    font-size: 13pt; color: #e6edf3;
+    max-width: 5in; margin-bottom: 0.4in; line-height: 1.5;
+}
+.cover .meta {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 9pt; color: #8b949e;
+    margin-top: 0.3in;
+}
+.cover .version {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 10pt; color: #00ff88;
+    border: 1px solid #00ff88;
+    padding: 6px 18px; border-radius: 4px;
+    display: inline-block; margin-top: 0.3in;
+}
+.cover .classification {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 8pt; color: #ff6b35;
+    margin-top: 0.5in; letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ── Table of Contents ────────────────────────────────────────────────────── */
+.toc { page-break-after: always; padding-top: 0.2in; }
+.toc h2 {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 16pt; color: #00d4ff;
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 0.25in; border-bottom: 1px solid #30363d;
+    padding-bottom: 0.1in;
+}
+.toc .vol-group { margin-bottom: 0.15in; }
+.toc .vol-label {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 9.5pt; font-weight: 700; color: #00ff88;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-top: 0.15in; margin-bottom: 0.04in;
+    padding: 3px 0; border-bottom: 1px solid #30363d;
+}
+.toc .ch-entry {
+    display: flex; align-items: baseline;
+    padding: 2px 0 2px 0.2in;
+}
+.toc .ch-entry a {
+    font-size: 9.5pt; color: #e6edf3; text-decoration: none;
+    white-space: nowrap; overflow: visible;
+    flex-shrink: 1; min-width: 0;
+}
+.toc .ch-entry a:hover { color: #00d4ff; }
+.toc .ch-dots {
+    flex: 1; border-bottom: 1px dotted #30363d;
+    margin: 0 6px 3px 6px; min-width: 0.2in;
+}
+.toc .ch-pg {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 8.5pt; color: #8b949e;
+    white-space: nowrap;
+    /* CSS target-counter not fully supported; placeholder for HTML view */
+}
+
+/* ── Chapter layout ───────────────────────────────────────────────────────── */
+.chapter {
+    page-break-before: always;
+    padding-top: 0.15in;
+}
+/* Inject chapter title into running header string */
+.chapter-title {
+    string-set: chapter-running content();
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 17pt; font-weight: 700; color: #e6edf3;
+    margin-top: 0.05in; line-height: 1.25;
+}
+.chapter-header {
+    margin-bottom: 0.3in; padding-bottom: 0.12in;
+    border-bottom: 2px solid #00d4ff;
+}
+.chapter-number {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 8.5pt; color: #00d4ff;
+    text-transform: uppercase; letter-spacing: 3px;
+}
+.chapter-volume {
+    font-size: 7.5pt; color: #8b949e;
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    margin-top: 0.04in;
+}
+.appendix-group .chapter-number { color: #00ff88; }
+.appendix-group .chapter-header { border-bottom-color: #00ff88; }
+.appendix-group .chapter-title { string-set: chapter-running content(); }
+
+/* ── Body content ─────────────────────────────────────────────────────────── */
+.content { padding-top: 0.08in; }
+
+.content h2 {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: clamp(20px, 2.2vw, 28px); font-weight: 700; color: #00d4ff;
+    margin: 0.28in 0 0.1in 0;
+    page-break-after: avoid;
+}
+.content h3 {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: clamp(17px, 1.8vw, 24px); font-weight: 600; color: #00ff88;
+    margin: 0.2in 0 0.08in 0;
+    page-break-after: avoid;
+}
+.content h4 {
+    font-size: clamp(16px, 1.5vw, 21px); font-weight: 600; color: #ff6b35;
+    margin: 0.14in 0 0.06in 0;
+    page-break-after: avoid;
+}
+.content p {
+    margin: 0.07in 0;
+    text-align: justify;
+    orphans: 3;
+    widows: 3;
+}
+.content a { color: #00d4ff; text-decoration: none; }
+.content strong { color: #e6edf3; font-weight: 600; }
+.content em { color: #8b949e; font-style: italic; }
+.content ul, .content ol { margin: 0.07in 0 0.07in 0.22in; }
+.content li {
+    margin: 0.035in 0;
+    orphans: 2; widows: 2;
+}
+
+/* ── Code blocks ──────────────────────────────────────────────────────────── */
+.content pre {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-left: 3px solid #7c3aed;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin: 0.12in 0;
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: clamp(11px, 1.0vw, 14px);
+    color: #00d4ff;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: auto;
+    resize: both;
+    min-width: 200px;
+    min-height: 60px;
+    /* Do NOT set page-break-inside: avoid — long scripts span multiple pages */
+}
+.content code {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 0.9em;
+    background: #161b22;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #ff6b35;
+}
+.content pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+
+/* ── Syntax highlighting (codehilite / dark theme) ────────────────────────── */
+.codehilite { background: #161b22; border: 1px solid #30363d; border-left: 3px solid #7c3aed; border-radius: 4px; padding: 10px 14px; margin: 0.12in 0; overflow: visible; }
+.codehilite pre { border: none; padding: 0; margin: 0; background: transparent; }
+.codehilite .hll { background-color: #2a3040; }
+.codehilite .c  { color: #586e75; font-style: italic; }  /* Comment */
+.codehilite .k  { color: #00d4ff; font-weight: bold; }  /* Keyword */
+.codehilite .n  { color: #e6edf3; }  /* Name */
+.codehilite .o  { color: #ff6b35; }  /* Operator */
+.codehilite .s  { color: #00ff88; }  /* String */
+.codehilite .s1 { color: #00ff88; }
+.codehilite .s2 { color: #00ff88; }
+.codehilite .m  { color: #7c3aed; }  /* Number */
+.codehilite .mi { color: #7c3aed; }
+.codehilite .nb { color: #00d4ff; }  /* Name.Builtin */
+.codehilite .nf { color: #ff6b35; font-weight: bold; }  /* Name.Function */
+.codehilite .nv { color: #e6edf3; }  /* Name.Variable */
+.codehilite .nt { color: #00d4ff; }  /* Name.Tag */
+.codehilite .p  { color: #8b949e; }  /* Punctuation */
+.codehilite .cm { color: #586e75; font-style: italic; }  /* Comment.Multiline */
+.codehilite .cp { color: #ff6b35; }  /* Comment.Preproc */
+.codehilite .err { color: #ff3333; background: none; }
+
+/* ── Tables ───────────────────────────────────────────────────────────────── */
+.content table {
+    width: 100%; border-collapse: collapse;
+    margin: 0.14in 0; font-size: clamp(12px, 1.1vw, 15px);
+    table-layout: auto;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.content thead { display: table-header-group; }
+.content th {
+    background: #161b22;
+    color: #00d4ff;
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 8pt; text-transform: uppercase; letter-spacing: 1px;
+    padding: 7px 10px; text-align: left; font-weight: 700;
+    border: 1px solid #30363d;
+    word-break: break-word;
+}
+.content td {
+    padding: 6px 10px;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    vertical-align: top;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+.content tr { page-break-inside: avoid; }
+.content tr:nth-child(even) td { background: #161b22; }
+.content tr:nth-child(odd) td  { background: transparent; }
+
+/* ── Blockquotes ──────────────────────────────────────────────────────────── */
+.content blockquote {
+    border-left: 3px solid #00d4ff;
+    background: #161b22;
+    margin: 0.12in 0; padding: 10px 16px;
+    color: #e6edf3; font-size: 10.5pt;
+    page-break-inside: avoid;
+    font-style: italic;
+}
+.content blockquote strong { color: #00d4ff; font-style: normal; }
+.content blockquote p { margin: 0; text-align: left; }
+
+/* ── Horizontal rules ─────────────────────────────────────────────────────── */
+.content hr {
+    border: none; border-top: 1px solid #30363d;
+    margin: 0.18in 0;
+}
+
+/* ── Printable reference cards (Appendix G) ──────────────────────────────── */
+.ref-card {
+    page-break-inside: avoid;
+    margin: 0.15in 0;
+}
+.ref-card pre {
+    /* Override the no-break rule from general pre — cards are short enough */
+    page-break-inside: avoid !important;
+    font-size: 7.5pt;
+    line-height: 1.45;
+}
+
+/* ── Footnotes (markdown extra footnote extension) ────────────────────────── */
+.footnote {
+    font-size: 8.5pt; color: #8b949e;
+    margin-top: 0.25in; padding-top: 0.1in;
+    border-top: 1px solid #30363d;
+}
+/* Style the auto-generated "Footnotes" h3 heading */
+.footnote > h3, div.footnote > h3 {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 8.5pt; font-weight: 700;
+    color: #8b949e; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 0.06in;
+    border: none;
+}
+.footnote ol { margin-left: 0.15in; }
+.footnote li { margin: 0.04in 0; line-height: 1.5; }
+.footnote li p { margin: 0; }
+sup { font-size: 7pt; color: #00d4ff; vertical-align: super; line-height: 0; }
+sup a { color: #00d4ff; text-decoration: none; }
+a.footnote-ref { color: #00d4ff; font-size: 7.5pt; }
+a.footnote-backref { color: #8b949e; font-size: 7pt; }
+
+/* ── Graphs ───────────────────────────────────────────────────────────────── */
+.graph-figure {
+    text-align: center; margin: 0.25in 0;
+    page-break-inside: avoid;
+    page-break-before: auto;
+    max-width: 100%;
+    overflow: visible;
+}
+.graph-figure img {
+    max-width: 100%; width: 100%; height: auto;
+    border: 1px solid #30363d;
+    border-radius: 4px;
+    display: block; margin: 0 auto;
+    resize: both;
+    overflow: auto;
+    min-width: 200px;
+    min-height: 100px;
+}
+.graph-figure .caption {
+    font-size: 8.5pt; color: #8b949e;
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+    margin-top: 0.06in;
+    font-style: italic;
+}
+
+/* ── Legacy page-frame / footer (HTML view only) ─────────────────────────── */
+.page-footer {
+    display: none;
+}
+@media screen {
+    body { padding: clamp(0.15in, 2vw, 0.5in); max-width: min(9in, 95vw); margin: 0 auto; }
+    .page-footer {
+        display: block;
+        text-align: center;
+        font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+        font-size: 7.5pt; color: #8b949e;
+        padding: 0.2in 0; margin-top: 0.5in;
+        border-top: 1px solid #30363d;
+    }
+}
+@media screen and (max-width: 600px) {
+    body { padding: 0.1in; max-width: 100vw; }
+    html { font-size: 16px; }
+    .content table { font-size: 11px; }
+    .content pre { font-size: 10px; }
+    .graph-figure img { resize: none; }
+}
+</style>
+<style id="theme-light" disabled>
 @page {
     size: letter;
     margin: 0.75in 0.7in 0.85in 0.8in;
@@ -117,6 +496,21 @@ sup a { color: #0969da; text-decoration: none; }
 .codehilite .cm { color: #6e7781; font-style: italic; }
 .codehilite .cp { color: #d1242f; }
 .codehilite .err { color: #d1242f; background: none; }
+</style>
+<style>
+.theme-toggle {
+  position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--tgl-bg, #161b22); border: 1px solid var(--tgl-border, #30363d);
+  border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px;
+  color: var(--tgl-clr, #e6edf3); user-select: none;
+  opacity: 0.7; transition: opacity .2s;
+  backdrop-filter: blur(4px);
+}
+.theme-toggle:hover { opacity: 1; }
+.theme-toggle .icon { font-size: 16px; line-height: 1; }
+@media print { .theme-toggle { display: none !important; } }
 </style>
 </head>
 <body>
@@ -18392,5 +18786,42 @@ bash<span class="w"> </span>opsec_checklist.sh<span class="w"> </span>travel
   <div class="page-footer">
     Privacy Researcher's Handbook v3.1 &mdash; &#x25cf; Page <span class="page-num"></span>
   </div>
+  <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <span class="icon" id="themeIcon">&#x1f319;</span>
+    <span id="themeLabel">Dark</span>
+  </div>
+  <script>
+(function() {
+  var key = 'hb-theme';
+  function setTheme(name) {
+    var dark = document.getElementById('theme-dark');
+    var light = document.getElementById('theme-light');
+    var icon = document.getElementById('themeIcon');
+    var label = document.getElementById('themeLabel');
+    var toggle = document.getElementById('themeToggle');
+    if (name === 'light') {
+      dark.disabled = true;  light.disabled = false;
+      icon.innerHTML = '&#x2600;&#xfe0f;'; label.textContent = 'Light';
+      toggle.style.setProperty('--tgl-bg', '#ffffff');
+      toggle.style.setProperty('--tgl-border', '#d0d7de');
+      toggle.style.setProperty('--tgl-clr', '#1a1a2e');
+    } else {
+      dark.disabled = false; light.disabled = true;
+      icon.innerHTML = '&#x1f319;'; label.textContent = 'Dark';
+      toggle.style.setProperty('--tgl-bg', '#161b22');
+      toggle.style.setProperty('--tgl-border', '#30363d');
+      toggle.style.setProperty('--tgl-clr', '#e6edf3');
+    }
+    try { localStorage.setItem(key, name); } catch(e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(key); } catch(e) {}
+  setTheme(saved === 'light' ? 'light' : 'dark');
+  window.toggleTheme = function() {
+    var cur = document.getElementById('theme-dark').disabled ? 'dark' : 'light';
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  };
+})();
+  </script>
 </body>
 </html>

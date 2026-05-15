@@ -1471,7 +1471,11 @@ def build_html(chapters, graph_paths, theme="dark"):
     total_appendix = len([c for c in chapters if c["ch_num"] == 0])
     vol_count = len(set(c["vol_label"] for c in chapters if c["vol_num"] < 8))
 
-    css = build_css_light() if theme == "light" else build_css()
+    css_dark  = build_css()
+    css_light = build_css_light()
+
+    default_dark = "disabled" if theme == "light" else ""
+    default_light = "disabled" if theme == "dark" else ""
 
     parts = []
     parts.append(f"""<!DOCTYPE html>
@@ -1479,7 +1483,23 @@ def build_html(chapters, graph_paths, theme="dark"):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-<style>{css}</style>
+<style id="theme-dark" {default_dark}>{css_dark}</style>
+<style id="theme-light" {default_light}>{css_light}</style>
+<style>
+.theme-toggle {{
+  position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--tgl-bg, #161b22); border: 1px solid var(--tgl-border, #30363d);
+  border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px;
+  color: var(--tgl-clr, #e6edf3); user-select: none;
+  opacity: 0.7; transition: opacity .2s;
+  backdrop-filter: blur(4px);
+}}
+.theme-toggle:hover {{ opacity: 1; }}
+.theme-toggle .icon {{ font-size: 16px; line-height: 1; }}
+@media print {{ .theme-toggle {{ display: none !important; }} }}
+</style>
 </head>
 <body>""")
 
@@ -1566,6 +1586,43 @@ def build_html(chapters, graph_paths, theme="dark"):
   <div class="page-footer">
     Privacy Researcher's Handbook v""" + VERSION + """ &mdash; &#x25cf; Page <span class="page-num"></span>
   </div>
+  <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <span class="icon" id="themeIcon">&#x1f319;</span>
+    <span id="themeLabel">Dark</span>
+  </div>
+  <script>
+(function() {
+  var key = 'hb-theme';
+  function setTheme(name) {
+    var dark = document.getElementById('theme-dark');
+    var light = document.getElementById('theme-light');
+    var icon = document.getElementById('themeIcon');
+    var label = document.getElementById('themeLabel');
+    var toggle = document.getElementById('themeToggle');
+    if (name === 'light') {
+      dark.disabled = true;  light.disabled = false;
+      icon.innerHTML = '&#x2600;&#xfe0f;'; label.textContent = 'Light';
+      toggle.style.setProperty('--tgl-bg', '#ffffff');
+      toggle.style.setProperty('--tgl-border', '#d0d7de');
+      toggle.style.setProperty('--tgl-clr', '#1a1a2e');
+    } else {
+      dark.disabled = false; light.disabled = true;
+      icon.innerHTML = '&#x1f319;'; label.textContent = 'Dark';
+      toggle.style.setProperty('--tgl-bg', '#161b22');
+      toggle.style.setProperty('--tgl-border', '#30363d');
+      toggle.style.setProperty('--tgl-clr', '#e6edf3');
+    }
+    try { localStorage.setItem(key, name); } catch(e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(key); } catch(e) {}
+  setTheme(saved === 'light' ? 'light' : '""" + theme + """');
+  window.toggleTheme = function() {
+    var cur = document.getElementById('theme-dark').disabled ? 'dark' : 'light';
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  };
+})();
+  </script>
 </body>
 </html>""")
     return "\n".join(parts)
