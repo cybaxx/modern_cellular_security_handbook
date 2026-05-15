@@ -1,0 +1,13 @@
+# Build artifacts (PDF/EPUB)
+docs/*.pdf
+docs/*.epub
+output/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
