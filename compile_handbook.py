@@ -1064,7 +1064,7 @@ def read_all_chapters():
             text = readme.read_text("utf-8")
             title = extract_title(text, app_d)
             chapters.append({
-                "vol_num": 8, "vol_label": "Appendices",
+                "vol_num": 10, "vol_label": "Appendices",
                 "ch_num": 0, "title": title, "text": text,
                 "dir_name": app_d.name,
             })
